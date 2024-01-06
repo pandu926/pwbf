@@ -15,3 +15,6 @@ use App\Http\Controllers\PendidikanController;
 */
 
 Route::get('/', [PendidikanController::class, 'tampil']);
+Route::post('/insert-data', [PendidikanController::class, 'tambah_data']);
+Route::delete('/delete-data/{id}', [PendidikanController::class, 'delete']);
+Route::put('/update-data/{id}', [PendidikanController::class, 'update']);

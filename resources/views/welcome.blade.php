@@ -30,6 +30,7 @@
                         <div class="col-4">pendidikan</div>
                         <div class="col-4">tentang</div>
                         <div class="col-4">skill</div>
+
                     </div>
                 </div>
             </div>
@@ -39,12 +40,51 @@
 
     <aside class="ml-4 container mt-5">
         <h3 class="text-light text-capitaliz "> riwayat pendidikan</h3>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    tambah data
+  </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">tambah data</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/insert-data" method="post">
+                        @csrf
+                        <!-- Laravel CSRF Token -->
+
+                        <label for="nama">Nama:</label>
+                        <input type="text" name="nama" required>
+                        <br>
+
+                        <label for="tahun_masuk">Tahun Masuk:</label>
+                        <input type="number" name="tahun_masuk" required>
+                        <br>
+
+                        <label for="tahun_keluar">Tahun Lulus:</label>
+                        <input type="number" name="tahun_keluar" required>
+                        <br>
+
+                        <button type="submit">Simpan Data</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
         <table class="table mt-5">
             <thead class="table-danger ">
                 <tr>
                     <td>nama </td>
                     <td>tahun masuk</td>
                     <td>tahun lulus</td>
+                    <td>aksi</td>
                 </tr>
             </thead>
             <tbody>
@@ -54,12 +94,53 @@
                     <td>{{$dt->nama_sekolah}}</td>
                     <td>{{$dt->tahun_masuk}}</td>
                     <td>{{$dt->tahun_keluar}}</td>
+                    <td class="d-flex">
+                        <form action="/delete-data/<?php echo $dt->id; ?>" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                            @csrf @method('DELETE')
+                            <button type="submit">Delete</button>
+                        </form>
+
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
+                                edit data
+                            </button>
+
+                    </td>
                 </tr>
+                <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">update data</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/update-data/<?php echo $dt->id; ?>" method="post">
+                                @csrf @method("PUT")
+                                <!-- Laravel CSRF Token -->
+
+                                <label for="nama">Nama:</label>
+                                <input type="text" name="nama" value="{{$dt->nama_sekolah}}" required>
+                                <br>
+
+                                <label for="tahun_masuk">Tahun Masuk:</label>
+                                <input type="number" name="tahun_masuk" value="{{$dt->tahun_masuk}}" required>
+                                <br>
+
+                                <label for="tahun_keluar">Tahun Lulus:</label>
+                                <input type="number" name="tahun_keluar" value="{{$dt->tahun_keluar}}" required>
+                                <br>
+
+                                <button type="submit">Simpan Data</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </tbody>
         </table>
     </aside>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js " integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL " crossorigin="anonymous "></script>
 </body>
 
 </html>
